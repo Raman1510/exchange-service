@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 @Slf4j
 public class ExchangeExceptionHandler {
 
-    @ExceptionHandler(value = {RequestValidationException.class})
+    @ExceptionHandler(value = {RequestValidationException.class, MethodArgumentTypeMismatchException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ExceptionResponeBase handleValidationError(Exception ex) {
         log.error("exception occured -{}", ex.getMessage());
