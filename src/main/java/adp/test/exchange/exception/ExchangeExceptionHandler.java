@@ -14,6 +14,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j
 public class ExchangeExceptionHandler {
 
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponeBase handleGenericError(Exception ex) {
+        log.error("exception occured -{}", ex.getMessage());
+        return ExceptionResponeBase.builder().code(ExceptionCode.TECHNICAL_EXCEPTION).message(ex.getMessage()).build();
+    }
+
     @ExceptionHandler(value = {RequestValidationException.class, MethodArgumentTypeMismatchException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ExceptionResponeBase handleValidationError(Exception ex) {
